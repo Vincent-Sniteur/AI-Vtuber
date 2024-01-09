@@ -1,8 +1,8 @@
-训练前需将语料重命名为"db.txt"
-语料文件格式如下
---------------------
-问
-答
-问
-答
---------------------
+Before training, you need to rename the corpus to "db.txt"
+The corpus file format is as follows
+-------------------
+ask
+answer
+ask
+answer
+-------------------
