@@ -1,2 +1,2 @@
-此处存放cookie文件。  
-快手的cookie文件，因为监听服务被噶噶检测，所以每次用完后，第二次使用时需要删除json文件，重新创建。  
+Cookie files are stored here.
+Kuaishou's cookie file, because the monitoring service is detected by Garga, so after each use, the json file needs to be deleted and re-created the second time.
