@@ -1,4 +1,3 @@
-git+https://github.com/Ikaros-521/WenxinWorkshop-Python-SDK
 openai
 pygame
 edge-tts==6.1.6

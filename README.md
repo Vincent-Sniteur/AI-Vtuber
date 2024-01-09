@@ -1,4 +1,4 @@
-# ✨ Luna AI ✨
+# ✨ Luna AI ✨ Clean EN for personal use
 
 <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber?ref=badge_shield&issueType=license" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber.svg?type=shield&issueType=license"/></a>
 <a href="//github.com/Ikaros-521/AI-Vtuber/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Ikaros-521/AI-Vtuber?color=%09%2300BFFF&style=flat-square"></a>
@@ -6,34 +6,33 @@
 <a href="//github.com/Ikaros-521/AI-Vtuber/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/Ikaros-521/AI-Vtuber?color=%2300BFFF&style=flat-square"></a>
 <a href="//www.python.org"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python"></a>
 
-`Luna AI` 是一款结合了最先进技术的虚拟AI主播。它的核心是一系列高效的人工智能模型，包括 `ChatterBot、GPT、Claude、langchain、chatglm、text-generation-webui、讯飞星火、智谱AI、谷歌Bard、文心一言、通义星尘、千帆大模型 和 Gemini`。这些模型既可以在本地运行，也可以通过云端服务提供支持。
+`Luna AI` is a virtual AI streamer that combines state-of-the-art technologies. Its core consists of a series of efficient artificial intelligence models, including `ChatterBot, GPT, Claude, langchain, chatglm, text-generation-webui, Xunfei, Zhipu AI, Google Bard, Wenxin Yiyuan, Tongyi Xingchen, Qianfan Big Model, and Gemini`. These models can run locally or be supported through cloud services.
 
-`Luna AI` 的外观由 `Live2D、Vtube Studio、xuniren 和 UE5 结合 Audio2Face` 技术打造，为用户提供了一个生动、互动的虚拟形象。这使得 `Luna AI` 能够在各大直播平台，如 `Bilibili、抖音、快手、微信视频号、斗鱼、YouTube 和 Twitch`，进行实时互动直播。当然，它也可以在本地环境中与您进行个性化对话。
+The appearance of `Luna AI` is created using technologies such as `Live2D, Vtube Studio, xuniren, and UE5 combined with Audio2Face`, providing users with a vivid and interactive virtual image. This allows `Luna AI` to engage in real-time interactive streaming on major platforms such as `Bilibili, TikTok, Kuaishou, WeChat Video Number, Douyu, YouTube, and Twitch`. Additionally, it can engage in personalized conversations in a local environment.
 
-为了使交流更加自然，`Luna AI` 使用了先进的自然语言处理技术，结合文本转语音系统，如 `Edge-TTS、VITS-Fast、elevenlabs、bark-gui、VALL-E-X、睿声AI、genshinvoice.top 和 tts.ai-lab.top`。这不仅让它能够生成流畅的回答，还可以通过 `so-vits-svc 和 DDSP-SVC` 实现声音的变化，以适应不同的场景和角色。
+To make communication more natural, `Luna AI` uses advanced natural language processing technology combined with text-to-speech systems such as `Edge-TTS, VITS-Fast, elevenlabs, bark-gui, VALL-E-X, RevoiceAI, genshinvoice.top, and tts.ai-lab.top`. This not only enables it to generate smooth responses but also allows for voice modulation using `so-vits-svc and DDSP-SVC` to adapt to different scenarios and roles.
 
-此外，`Luna AI` 还能够通过特定指令与 `Stable Diffusion` 协作，展示画作。用户还可以自定义文案，让 Luna AI 循环播放，以满足不同场合的需求。
+Moreover, `Luna AI` can collaborate with `Stable Diffusion` through specific commands to showcase artworks. Users can also customize scripts for Luna AI to play in a loop to meet various needs.
 
-```
-本项目完全免费，如有发现一模一样的套壳售卖程序，皆为盗版，请及时止损
-```
+This project is completely free. If an identical program is found being sold as a shell, it is considered pirated, please take timely measures.
 
-<a href="//space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ 视频教程合集</span></a>
+
+<a href="//space.bilibili.com/3709626/channel/collectiondetail?sid=1422512" target="_blank">▶︎ Video Tutorial Collection</span></a>
 <span> | </span>
-<a href="//luna.docs.ie.cx">📄 在线文档</span></a>
+<a href="//luna.docs.ie.cx">📄 Online Documentation</span></a>
 <span> | </span>
 <a href="//github.com/Ikaros-521/AI-Vtuber" target="_blank">🍉 GitHub</span></a>
 <span> | </span>
 <a href="//gitee.com/ikaros-521/AI-Vtuber" target="_blank">🍓 Gitee</span></a>
 
-![思维导图](./docs/xmind.png)
+![Mind Map](./docs/xmind.png)
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber?ref=badge_large)
 
-## 🀅开发&项目相关
+## 🀅Development & Project Related
 
-### 简易流程图
+### Simple Flowchart
 
 ![image](./docs/simple_flowchart.png)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber?ref=badge_shield)
@@ -43,35 +42,36 @@
 ## License
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2FIkaros-521%2FAI-Vtuber?ref=badge_large&issueType=license) 
-## ⭐️Star 经历
+## ⭐️Star Experience
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Ikaros-521/AI-Vtuber&type=Date)](https://star-history.com/#Ikaros-521/AI-Vtuber&Date)
 
-## 🤝贡献
+## 🤝Contribution
 
-### 🎉鸣谢
+### 🎉Acknowledgments
 
-感谢以下开发者对该项目做出的贡献：
+Thanks to the following developers for their contributions to this project:
 
 <a href="https://github.com/Ikaros-521/AI-Vtuber/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Ikaros-521/AI-Vtuber" />
 </a>
 
-### 💸投资方
+### 💸Investors
 
-![image](./docs/投资人/invest.png)
+![image](./docs/Investors/invest.png)
 
-### 合作伙伴
+### Partners
 
-智来星球：[m.zlxqai.com](http://m.zlxqai.com/)  ———— 提供GPT、AI绘图服务  
+Zhilaixingqiu: [m.zlxqai.com](http://m.zlxqai.com/)  ———— Provides GPT and AI drawing services
 
-青椒云：[qingjiaocloud.com](https://account.qingjiaocloud.com/signin?inviteCode=4Q92ROBQ)  ———— AIGC 高性能云桌面  
+Qingjiaoyun: [qingjiaocloud.com](https://account.qingjiaocloud.com/signin?inviteCode=4Q92ROBQ)  ———— AIGC high-performance cloud desktop
 
-睿声AI：[reecho.ai](https://www.reecho.ai/)  ———— 瞬时创建 超级拟真的 人工智能克隆语音  
+RevoiceAI: [reecho.ai](https://www.reecho.ai/)  ———— Instantly creates super-realistic AI cloned voices
 
-### 🙌赞助
+### 🙌Sponsors
 
 <div>
   <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719075908_%E6%94%AF%E4%BB%98%E5%AE%9D.png" style="width: 200px;">
   <img src="https://images.cnblogs.com/cnblogs_com/ikaros-521/2328032/o_230719075908_%E5%BE%AE%E4%BF%A1.png" style="width: 230px;">
 </div>
+

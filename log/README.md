@@ -1,1 +1,1 @@
-此处存放生成的日志文件
+The generated log files are stored here

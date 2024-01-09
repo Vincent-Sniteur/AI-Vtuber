@@ -1,1 +1,1 @@
-此处存放edge-tts合成的音频文件
+The audio files synthesized by edge-tts are stored here.
