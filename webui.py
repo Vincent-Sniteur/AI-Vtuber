@@ -3,6 +3,7 @@ import sys, os, json, subprocess, importlib, re, threading, signal
 import logging, traceback
 import time
 import asyncio
+# from functools import partial
 
 import http.server
 import socketserver
@@ -230,6 +231,62 @@ def goto_func_page():
                 ui.notify(position="top", type="negative", message=f"Failed to restore factory settings!\n{e}")
             
             return {"code": -1, "msg": f"Failed to restore factory settings!\n{e}"}
+        
+            # openai 测试key可用性
+    def test_openai_key():
+        # import openai
+        # from packaging import version
+
+        # # 检查可用性
+        # def check_useful(base_url, api_keys):
+        #     # 尝试调用 list engines 接口
+        #     try:
+        #         api_key = api_keys.split('\n')[0].rstrip()
+
+        #         logging.info(f"base_url=【{base_url}】, api_keys=【{api_key}】")
+
+        #         # openai.base_url = self.data_openai['api']
+        #         # openai.api_key = self.data_openai['api_key'][0]
+
+        #         logging.debug(f"openai.__version__={openai.__version__}")
+
+        #         openai.api_base = base_url
+        #         openai.api_key = api_key
+
+        #         # 判断openai库版本，1.x.x和0.x.x有破坏性更新
+        #         if version.parse(openai.__version__) < version.parse('1.0.0'):
+        #             # 调用 ChatGPT 接口生成回复消息
+        #             resp = openai.ChatCompletion.create(
+        #                 model=select_openai_tts_model.value,
+        #                 messages=[{"role": "user", "content": "Hi"}],
+        #                 timeout=30
+        #             )
+        #         else:
+        #             client = openai.OpenAI(base_url=openai.api_base, api_key=openai.api_key)
+        #             # 调用 ChatGPT 接口生成回复消息
+        #             resp = client.chat.completions.create(
+        #                 model=select_openai_tts_model.value,
+        #                 messages=[{"role": "user", "content": "Hi"}],
+        #                 timeout=30
+        #             )
+
+        #         logging.debug(resp)
+        #         logging.info("OpenAI API key 可用")
+
+        #         return True
+        #     except openai.OpenAIError as e:
+        #         logging.error(f"OpenAI API key 不可用: {e}")
+        #         return False
+        
+        # if check_useful(input_openai_api.value, textarea_openai_api_key.value):
+        #     ui.notify(position="top", type="positive", message=f"测试通过！")
+        # else:
+        #     ui.notify(position="top", type="negative", message=f"测试失败！")
+
+        if common.test_openai_key(input_openai_api.value, textarea_openai_api_key.value, select_openai_tts_model.value):
+            ui.notify(position="top", type="positive", message=f"测试通过！")
+        else:
+            ui.notify(position="top", type="negative", message=f"测试失败！")
     
     """
     API
@@ -239,7 +296,7 @@ def goto_func_page():
     """
     System commands
         type: command type (run/stop/restart/factory)
-        data: incoming JSON
+        data 传入的json
 
     data_json = {
         "type": "command_name",
@@ -257,7 +314,7 @@ def goto_func_page():
         try:
             data_json = await request.json()
             logging.info(f'Received data: {data_json}')
-            logging.info(f"Executing {data_json['type']} command...")
+            logging.info(f"Executing {data_json['type']}命令...")
 
             resp_json = {}
 
@@ -1351,7 +1408,7 @@ def goto_func_page():
                     switch_captions_enable = ui.switch('Enable', value=config.get("captions", "enable")).style(switch_internal_css)
 
                     select_comment_log_type = ui.select(
-                        label='Danmaku Log Type',
+                        label='弹幕日志类型',
                         options={'Q&A': 'Q&A', 'Question': 'Question', 'Answer': 'Answer', 'Do Not Record': 'Do Not Record'},
                         value=config.get("comment_log_type")
                     )
@@ -1361,8 +1418,8 @@ def goto_func_page():
                 with ui.grid(columns=4):
                     switch_local_qa_text_enable = ui.switch('启用文本匹配', value=config.get("local_qa", "text", "enable")).style(switch_internal_css)
                     select_local_qa_text_type = ui.select(
-                        label='Danmaku Log Type',
-                        options={'json': 'Custom JSON', 'text': 'One Q&A per Line'},
+                        label='弹幕日志类型',
+                        options={'json': '自定义json', 'text': '一问一答'},
                         value=config.get("local_qa", "text", "type")
                     )
                     input_local_qa_text_file_path = ui.input(label='Text Q&A Data Path', placeholder='Path to local text Q&A data', value=config.get("local_qa", "text", "file_path")).style("width:200px;")
@@ -1651,11 +1708,37 @@ def goto_func_page():
                     input_openai_api = ui.input(label='API Address', placeholder='API request address, supports proxy', value=config.get("openai", "api")).style("width:200px;")
                     textarea_openai_api_key = ui.textarea(label='API Key', placeholder='API KEY, supports proxy', value=textarea_data_change(config.get("openai", "api_key"))).style("width:400px;")
                 with ui.row():
-                    chatgpt_models = ["gpt-3.5-turbo", "gpt-4", "text-embedding-ada-002", "text-davinci-003", "chatglm3-6b", ...]  # (List truncated for brevity)
-                    data_json = {model: model for model in chatgpt_models}
+                    chatgpt_models = ["gpt-3.5-turbo",
+                        "gpt-3.5-turbo-0301",
+                        "gpt-3.5-turbo-0613",
+                        "gpt-3.5-turbo-1106",
+                        "gpt-3.5-turbo-16k",
+                        "gpt-3.5-turbo-16k-0613",
+                        "gpt-3.5-turbo-instruct",
+                        "gpt-3.5-turbo-instruct-0914",
+                        "gpt-4",
+                        "gpt-4-0314",
+                        "gpt-4-0613",
+                        "gpt-4-32k",
+                        "gpt-4-32k-0314",
+                        "gpt-4-32k-0613",
+                        "gpt-4-1106-preview",
+                        "text-embedding-ada-002",
+                        "text-davinci-003",
+                        "text-davinci-002",
+                        "text-curie-001",
+                        "text-babbage-001",
+                        "text-ada-001",
+                        "text-moderation-latest",
+                        "text-moderation-stable",
+                        "rwkv",
+                        "chatglm3-6b"]
+                    data_json = {}
+                    for line in chatgpt_models:
+                        data_json[line] = line
                     select_chatgpt_model = ui.select(
-                        label='Model',
-                        options=data_json,
+                        label='模型', 
+                        options=data_json, 
                         value=config.get("chatgpt", "model")
                     )
                     input_chatgpt_temperature = ui.input(label='Temperature', placeholder='Controls the randomness of generated text. Higher values make the text more random and diverse, while lower values make it more consistent.', value=config.get("chatgpt", "temperature")).style("width:200px;")
@@ -1708,8 +1791,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_chat_with_file_chat_mode = ui.select(
-                        label='Chat Mode',
-                        options=data_json,
+                        label='聊天模式', 
+                        options=data_json, 
                         value=config.get("chat_with_file", "chat_mode")
                     )
                     input_chat_with_file_data_path = ui.input(label='Data File Path', placeholder='Local zip data file path to load (to x.zip), e.g., ./data/Icarus_Baidu_Baike.zip', value=config.get("chat_with_file", "data_path"))
@@ -1726,8 +1809,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_chat_with_file_local_vector_embedding_model = ui.select(
-                        label='Model',
-                        options=data_json,
+                        label='模型', 
+                        options=data_json, 
                         value=config.get("chat_with_file", "local_vector_embedding_model")
                     )
                 with ui.row():
@@ -1786,8 +1869,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_sparkdesk_type = ui.select(
-                        label='Type',
-                        options=data_json,
+                        label='类型', 
+                        options=data_json, 
                         value=config.get("sparkdesk", "type")
                     )
                     input_sparkdesk_cookie = ui.input(label='Cookie', placeholder='Cookie from the web capture request header, refer to the documentation tutorial', value=config.get("sparkdesk", "cookie"))
@@ -1809,8 +1892,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_sparkdesk_version = ui.select(
-                        label='Version',
-                        options=data_json,
+                        label='版本', 
+                        options=data_json, 
                         value=str(config.get("sparkdesk", "version"))
                     ).style("width:100px")
                 with ui.card().style(card_css):
@@ -1823,8 +1906,8 @@ def goto_func_page():
                         for line in lines:
                             data_json[line] = line
                         select_langchain_chatglm_chat_type = ui.select(
-                            label='Type',
-                            options=data_json,
+                            label='类型', 
+                            options=data_json, 
                             value=config.get("langchain_chatglm", "chat_type")
                         )
                     with ui.row():
@@ -1843,8 +1926,8 @@ def goto_func_page():
                         for line in lines:
                             data_json[line] = line
                         select_langchain_chatchat_chat_type = ui.select(
-                            label='Type',
-                            options=data_json,
+                            label='类型', 
+                            options=data_json, 
                             value=config.get("langchain_chatchat", "chat_type")
                         )
                         switch_langchain_chatchat_history_enable = ui.switch('Context Memory', value=config.get("langchain_chatchat", "history_enable")).style(switch_internal_css)
@@ -1878,8 +1961,8 @@ def goto_func_page():
                             for line in lines:
                                 data_json[line] = line
                             select_langchain_chatchat_search_engine_search_engine_name = ui.select(
-                                label='Search Engine',
-                                options=data_json,
+                                label='搜索引擎', 
+                                options=data_json, 
                                 value=config.get("langchain_chatchat", "search_engine", "search_engine_name")
                             )
                             input_langchain_chatchat_search_engine_top_k = ui.input(label='Matched Search Results', value=config.get("langchain_chatchat", "search_engine", "top_k"), placeholder='Number of matched search results')
@@ -1898,8 +1981,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_zhipu_model = ui.select(
-                        label='Model',
-                        options=data_json,
+                        label='模型', 
+                        options=data_json, 
                         value=config.get("zhipu", "model")
                     )
                 with ui.row():
@@ -1936,8 +2019,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_yiyan_type = ui.select(
-                        label='Type',
-                        options=data_json,
+                        label='类型', 
+                        options=data_json, 
                         value=config.get("yiyan", "type")
                     ).style("width:100px")
                     switch_yiyan_history_enable = ui.switch('Context Memory', value=config.get("yiyan", "history_enable")).style(switch_internal_css)
@@ -1961,8 +2044,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_tongyixingchen_type = ui.select(
-                        label='Type',
-                        options=data_json,
+                        label='类型', 
+                        options=data_json, 
                         value=config.get("tongyixingchen", "type")
                     ).style("width:100px")
                     switch_tongyixingchen_history_enable = ui.switch('Context Memory', value=config.get("tongyixingchen", "history_enable")).style(switch_internal_css)
@@ -2007,8 +2090,8 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_my_wenxinworkshop_model = ui.select(
-                        label='Model',
-                        options=data_json,
+                        label='模型', 
+                        options=data_json, 
                         value=config.get("my_wenxinworkshop", "model")
                     ).style("width:150px")
                     switch_my_wenxinworkshop_history_enable = ui.switch('Context Memory', value=config.get("my_wenxinworkshop", "history_enable")).style(switch_internal_css)
@@ -2027,7 +2110,7 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_gemini_model = ui.select(
-                        label='Model', 
+                        label='模型', 
                         options=data_json, 
                         value=config.get("gemini", "model")
                     ).style("width:150px")
@@ -2050,7 +2133,7 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_tongyi_type = ui.select(
-                        label='Model', 
+                        label='模型', 
                         options=data_json, 
                         value=config.get("tongyi", "type")
                     )
@@ -2069,7 +2152,7 @@ def goto_func_page():
                     for line in lines:
                         data_json[line] = line
                     select_edge_tts_voice = ui.select(
-                        label='Speaker', 
+                        label='说话人', 
                         options=data_json, 
                         value=config.get("edge-tts", "voice")
                     )
@@ -2296,10 +2379,10 @@ def goto_func_page():
                     data_json = {}
                     for line in lines:
                         data_json[line] = line
-                    select_genshinvoice_top_speaker = ui.select(
-                        label='Character', 
+                    select_tts_ai_lab_top_speaker = ui.select(
+                        label='角色', 
                         options=data_json, 
-                        value=config.get("genshinvoice_top", "speaker")
+                        value=config.get("tts_ai_lab_top", "speaker")
                     )
 
                     input_genshinvoice_top_noise = ui.input(
@@ -2842,10 +2925,12 @@ def goto_func_page():
 
             with ui.row():
                 # Dropdown for selecting the recording type
-                data_json = {"google": "google", "baidu": "baidu", "faster_whisper": "faster_whisper"}
+                data_json = {}
+                for line in ["google", "baidu", "faster_whisper"]:
+                    data_json[line] = line
                 select_talk_type = ui.select(
-                    label='Recording Type',
-                    options=data_json,
+                    label='录音类型', 
+                    options=data_json, 
                     value=config.get("talk", "type")
                 ).style("width:200px;")
 
@@ -2854,17 +2939,17 @@ def goto_func_page():
                     file_content = file.read()
                 # Split the content into lines and create options for the trigger key dropdowns
                 lines = file_content.strip().split('\n')
-                data_json = {line: line for line in lines}
-                # Dropdown for selecting the recording trigger key
+                data_json = {}
+                for line in lines:
+                    data_json[line] = line
                 select_talk_trigger_key = ui.select(
-                    label='Recording Trigger Key',
-                    options=data_json,
+                    label='录音按键', 
+                    options=data_json, 
                     value=config.get("talk", "trigger_key")
                 ).style("width:100px;")
-                # Dropdown for selecting the stop trigger key
                 select_talk_stop_trigger_key = ui.select(
-                    label='Stop Trigger Key',
-                    options=data_json,
+                    label='停录按键', 
+                    options=data_json, 
                     value=config.get("talk", "stop_trigger_key")
                 ).style("width:100px;")
 
@@ -2896,10 +2981,12 @@ def goto_func_page():
                 ui.label("Google")
                 with ui.grid(columns=1):
                     # Dropdown for selecting the target translation language
-                    data_json = {"zh-CN": "zh-CN", "en-US": "en-US", "ja-JP": "ja-JP"}
+                    data_json = {}
+                    for line in ["zh-CN", "en-US", "ja-JP"]:
+                        data_json[line] = line
                     select_talk_google_tgt_lang = ui.select(
-                        label='Target Translation Language',
-                        options=data_json,
+                        label='目标翻译语言', 
+                        options=data_json, 
                         value=config.get("talk", "google", "tgt_lang")
                     ).style("width:200px")
 
@@ -2916,16 +3003,20 @@ def goto_func_page():
                 with ui.row():
                     # Input fields and dropdowns for Faster Whisper parameters
                     input_faster_whisper_model_size = ui.input(label='Model Size', value=config.get("talk", "faster_whisper", "model_size"), placeholder='Size of the model to use')
-                    data_json = {"cuda": "cuda", "cpu": "cpu", "auto": "auto"}
+                    data_json = {}
+                    for line in ["cuda", "cpu", "auto"]:
+                        data_json[line] = line
                     select_faster_whisper_device = ui.select(
-                        label='Device',
-                        options=data_json,
+                        label='device', 
+                        options=data_json, 
                         value=config.get("talk", "faster_whisper", "device")
                     ).style("width:200px")
-                    data_json = {"float16": "float16", "int8_float16": "int8_float16", "int8": "int8"}
+                    data_json = {}
+                    for line in ["float16", "int8_float16", "int8"]:
+                        data_json[line] = line
                     select_faster_whisper_compute_type = ui.select(
-                        label='Compute Type',
-                        options=data_json,
+                        label='compute_type', 
+                        options=data_json, 
                         value=config.get("talk", "faster_whisper", "compute_type")
                     ).style("width:200px")
                     input_faster_whisper_download_root = ui.input(label='Download Root', value=config.get("talk", "faster_whisper", "download_root"), placeholder='Model download path')
@@ -2934,7 +3025,7 @@ def goto_func_page():
             with ui.row():
                 # Textarea for entering chat content
                 textarea_talk_chat_box = ui.textarea(
-                    label='聊天框',
+                    label='ChatBox',
                     value="",
                     placeholder='Fill in the conversation content here to have a direct conversation (configure the chat mode earlier, remember to run it first)'
                 ).style("width:500px;")
@@ -3043,7 +3134,7 @@ def goto_func_page():
                 switch_assistant_anchor_local_qa_text_enable = ui.switch('Enable Text Matching', value=config.get("assistant_anchor", "local_qa", "text", "enable")).style(switch_internal_css)
                 select_assistant_anchor_local_qa_text_format = ui.select(
                     label='Storage Format',
-                    options={'json': 'Custom JSON', 'text': 'One Q&A per Line'},
+                    options={'json': '自定义json', 'text': '一问一答'},
                     value=config.get("assistant_anchor", "local_qa", "text", "format")
                 )
                 input_assistant_anchor_local_qa_text_file_path = ui.input(label='Text Q&A Data Path', value=config.get("assistant_anchor", "local_qa", "text", "file_path"), placeholder='Local Q&A text data storage path').style("width:200px;")
@@ -3105,7 +3196,7 @@ def goto_func_page():
                     for line in theme_list:
                         data_json[line] = line
                     select_webui_theme_choose = ui.select(
-                        label='Theme', 
+                        label='主题', 
                         options=data_json, 
                         value=config.get("webui", "theme", "choose")
                     )
